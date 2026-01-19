@@ -16,16 +16,24 @@ type BoatWithTile = Boat & {
 
 class BoatRepository {
   async readAll(where?: { name: string }): Promise<BoatWithTile[]> {
-    const query = `
+    let query = `
       SELECT 
         b.id, b.name, b.coord_x, b.coord_y,
         t.type, t.has_treasure
       FROM boat AS b
       LEFT JOIN tile AS t ON b.coord_x = t.coord_x AND b.coord_y = t.coord_y
-      ORDER BY b.coord_y, b.coord_x
     `;
 
-    const [rows] = await databaseClient.query<Rows>(query);
+    const params: string[] = [];
+
+    if (where?.name) {
+      query += " WHERE b.name = ?";
+      params.push(where.name);
+    }
+
+    query += " ORDER BY b.coord_y, b.coord_x";
+
+    const [rows] = await databaseClient.query<Rows>(query, params);
     return rows as BoatWithTile[];
   }
 
