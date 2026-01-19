@@ -16,7 +16,6 @@ class BoatRepository {
     if (where) {
       query += ` WHERE boat.name = '${where.name}'`;
     }
-    console.log(query);
 
     const [rows] = await databaseClient.query<Rows>(
       `select boat.id, boat.coord_x, boat.coord_y, boat.name, tile.type, tile.has_treasure from boat
