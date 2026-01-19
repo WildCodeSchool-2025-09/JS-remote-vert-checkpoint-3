@@ -5,6 +5,9 @@ const router = express.Router();
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
+import tileActions from "./modules/tile/tileActions";
+
+router.get("/api/tiles", tileActions.browse);
 
 import boatActions from "./modules/boat/boatActions";
 
