@@ -14,6 +14,22 @@ CREATE TABLE tile (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE album (
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL UNIQUE,
+    genre VARCHAR(1) NOT NULL,
+    picture VARCHAR(255) NOT NULL,
+    artist VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE track (
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    youtube_url VARCHAR(255) NOT NULL,
+    album_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (album_id) REFERENCES album(id)
+);
+
 INSERT INTO
     boat (name, coord_x, coord_y)
 VALUES ("Black Pearl", 1, 1),
