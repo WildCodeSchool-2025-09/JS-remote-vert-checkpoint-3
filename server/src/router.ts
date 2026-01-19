@@ -17,7 +17,7 @@ import gameActions from "./modules/game/gameActions";
 
 router.post("/api/games", gameActions.add);
 
-router.put("/api/boats/:id", boatActions.edit);
+router.put("/api/boats/:id", tileActions.validate, boatActions.edit);
 
 /* ************************************************************************* */
 
