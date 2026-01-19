@@ -1,3 +1,4 @@
+import { Q } from "@faker-js/faker/dist/airline-CBNP41sR";
 import databaseClient from "../../../database/client";
 
 import type { Result, Rows } from "../../../database/client";
@@ -22,7 +23,12 @@ class TileRepository {
   }
 
   async readByCoordinates(coordX: number, coordY: number) {
-    // your code here
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM tile WHERE coord_x = ? AND coord_y = ?",
+      [coordX, coordY],
+    );
+
+    return rows as Tile[];
   }
 
   async getRandomIsland() {
