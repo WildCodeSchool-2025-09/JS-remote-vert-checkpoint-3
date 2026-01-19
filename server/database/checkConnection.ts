@@ -12,7 +12,7 @@ client
     console.warn(
       "Warning:",
       "Failed to establish a database connection.",
-      "Please check your database credentials in the .env file if you need a database access."
+      "Please check your database credentials in the .env file if you need a database access.",
     );
     console.warn(error.message);
   });
