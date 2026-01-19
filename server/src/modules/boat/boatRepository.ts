@@ -7,23 +7,35 @@ type Boat = {
   name: string;
   coord_x: number;
   coord_y: number;
+  type: string;
+  has_treasure: boolean;
 };
 
 class BoatRepository {
-  async readAll(where?: { name: string }) {
+  async readAll(where?: { name?: string }) {
+    const baseSql = `select
+      boat.id,
+      boat.name,
+      boat.coord_x,
+      boat.coord_y,
+      tile.type,
+      tile.has_treasure
+    from boat
+    join tile
+      on boat.coord_x = tile.coord_x
+      and boat.coord_y = tile.coord_y`;
+
+    if (where?.name) {
+      const [rows] = await databaseClient.query<Rows>(
+        `${baseSql} where boat.name = ? order by boat.coord_y, boat.coord_x`,
+        [where.name],
+      );
+
+      return rows as Boat[];
+    }
+
     const [rows] = await databaseClient.query<Rows>(
-      `select
-        boat.id,
-        boat.name,
-        boat.coord_x,
-        boat.coord_y,
-        tile.type,
-        tile.has_treasure
-        from boat
-        join tile
-        on boat.coord_x = tile.coord_x
-        and boat.coord_y = tile.coord_y
-        order by boat.coord_y, boat.coord_x`,
+      `${baseSql} order by boat.coord_y, boat.coord_x`,
     );
 
     return rows as Boat[];
