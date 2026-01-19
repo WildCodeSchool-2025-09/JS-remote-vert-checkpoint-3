@@ -20,7 +20,17 @@ class TileRepository {
     // Return the array of tiles
     return rows as Tile[];
   }
+  async update(tile: Tile) {
+    const [result] = await databaseClient.query<Result>(
+      `update tile set
+        coord_x = ?,
+        coord_y = ?
+      where id = ?`,
+      [tile.coord_x, tile.coord_y, tile.id],
+    );
 
+    return result.affectedRows;
+  }
   async readByCoordinates(coordX: number, coordY: number) {
     // your code here
   }
