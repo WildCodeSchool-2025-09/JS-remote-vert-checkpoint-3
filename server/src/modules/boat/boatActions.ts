@@ -16,7 +16,24 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 const edit: RequestHandler = async (req, res, next) => {
-  // your code here
+  try {
+    const id = Number(req.params.id);
+    const { coord_x, coord_y } = req.body;
+
+    // Appel au repository pour mettre à jour le bateau
+
+    const updated = await boatRepository.update({ id, coord_x, coord_y });
+
+    if (updated) {
+      // Mise à jour réussie → 204 No Content
+      res.sendStatus(204);
+    } else {
+      // Aucun bateau trouvé avec cet ID → 404
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default {

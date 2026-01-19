@@ -20,15 +20,15 @@ const add: RequestHandler = async (req, res, next) => {
   try {
     const affectedBoats = await boatRepository.update(blackPearl);
 
-    if (affectedBoats === 0) {
+    if (!affectedBoats) {
+      res.sendStatus(404);
+      return;
+    }
+    const affectedTiles = await tileRepository.hideTreasure(treasureIsland);
+    if (affectedTiles === 0) {
       res.sendStatus(404);
     } else {
-      const affectedTiles = await tileRepository.hideTreasure(treasureIsland);
-      if (affectedTiles === 0) {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(201);
-      }
+      res.sendStatus(201);
     }
   } catch (err) {
     next(err);
