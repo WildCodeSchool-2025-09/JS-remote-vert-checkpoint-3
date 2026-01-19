@@ -12,8 +12,15 @@ type Boat = {
 class BoatRepository {
   async readAll(where?: { name: string }) {
     // Execute the SQL SELECT query to retrieve all boats from the "boat" table
+    let query = "";
+    if (where) {
+      query += ` WHERE boat.name = '${where.name}'`;
+    }
+    console.log(query);
+
     const [rows] = await databaseClient.query<Rows>(
-      "select boat.id, boat.coord_x, boat.coord_y, boat.name, tile.type, tile.has_treasure from boat join tile on boat.coord_x = tile.coord_x and boat.coord_y = tile.coord_y order by boat.coord_y, boat.coord_x",
+      `select boat.id, boat.coord_x, boat.coord_y, boat.name, tile.type, tile.has_treasure from boat
+       left join tile on boat.coord_x = tile.coord_x and boat.coord_y = tile.coord_y ${query} order by boat.coord_y, boat.coord_x  `,
     );
 
     // Return the array of tiles
