@@ -10,10 +10,19 @@ type Boat = {
 };
 
 class BoatRepository {
-  async readAll(where?: { name: string }) {
+  async readAll(filter?: { name: string }) {
     // Execute the SQL SELECT query to retrieve all boats from the "boat" table
+    if (filter == null) {
+      const [rows] = await databaseClient.query<Rows>(
+        "SELECT boat.id, boat.name, boat.coord_x, boat.coord_y, tile.type, tile.has_treasure FROM boat JOIN tile ON boat.id = tile.id",
+      );
+
+      return rows as Boat[];
+    }
+
     const [rows] = await databaseClient.query<Rows>(
-      "SELECT boat.id, boat.name, boat.coord_x, boat.coord_y, tile.type, tile.has_treasure FROM boat JOIN tile ON boat.id = tile.id",
+      "SELECT boat.id, boat.name, boat.coord_x, boat.coord_y, tile.type, tile.has_treasure FROM boat JOIN tile ON boat.id = tile.id WHERE boat.name = ?",
+      [filter?.name],
     );
 
     // Return the array of tiles

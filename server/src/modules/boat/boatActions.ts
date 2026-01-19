@@ -5,7 +5,10 @@ import boatRepository from "./boatRepository";
 const browse: RequestHandler = async (req, res, next) => {
   try {
     // Fetch all boats from the database
-    const boats = await boatRepository.readAll();
+    const { name } = req.query;
+    const filter = typeof name === "string" ? { name } : undefined;
+
+    const boats = await boatRepository.readAll(filter);
 
     // Respond with the boats in JSON format
     res.json(boats);
