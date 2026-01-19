@@ -7,6 +7,8 @@ import tileActions from "./modules/tile/tileActions";
 const router = express.Router();
 
 router.get("/api/boats", boatActions.browse);
+router.put("/api/boats/:id", boatActions.edit);
+
 router.get("/api/tiles", tileActions.browse);
 
 router.post("/api/games", gameActions.add);
