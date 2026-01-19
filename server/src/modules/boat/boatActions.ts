@@ -16,22 +16,23 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 const edit: RequestHandler = async (req, res, next) => {
-try {
-   const boat = {
-    id: Number(req.params.id),
-    coord_x: req.body.coord_x,
-    coord_y: req.body.coord_y,
-  };
+  try {
+    const boat = {
+      id: Number(req.params.id),
+      coord_x: req.body.coord_x,
+      coord_y: req.body.coord_y,
+    };
 
-  const affectedRows = await boatRepository.update(boat);
-  if (affectedRows === 0) {
-    res.sendStatus(404);
-  } else {
-  res.sendStatus(204);
+    const affectedRows = await boatRepository.update(boat);
+    if (affectedRows === 0) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    next(err);
   }
-} catch (err) {
-  next(err);
-}};
+};
 
 export default {
   browse,
