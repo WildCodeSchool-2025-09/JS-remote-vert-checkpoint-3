@@ -9,15 +9,24 @@ type Boat = {
   coord_y: number;
 };
 
-class BoatRepository {
-  async readAll(where?: { name: string }) {
-    // Execute the SQL SELECT query to retrieve all boats from the "boat" table
-    const [rows] = await databaseClient.query<Rows>(
-      "select * from boat order by coord_y, coord_x",
-    );
+type BoatWithTile = Boat & {
+  type?: string;
+  has_treasure?: boolean;
+};
 
-    // Return the array of tiles
-    return rows as Boat[];
+class BoatRepository {
+  async readAll(where?: { name: string }): Promise<BoatWithTile[]> {
+    const query = `
+      SELECT 
+        b.id, b.name, b.coord_x, b.coord_y,
+        t.type, t.has_treasure
+      FROM boat AS b
+      LEFT JOIN tile AS t ON b.coord_x = t.coord_x AND b.coord_y = t.coord_y
+      ORDER BY b.coord_y, b.coord_x
+    `;
+
+    const [rows] = await databaseClient.query<Rows>(query);
+    return rows as BoatWithTile[];
   }
 
   async update(boatToUpdate: Partial<Boat>) {
