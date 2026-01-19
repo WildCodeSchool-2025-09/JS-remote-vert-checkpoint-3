@@ -14,6 +14,9 @@ CREATE TABLE tile (
     PRIMARY KEY (id)
 );
 
+ALTER TABLE tile
+ADD COLUMN has_treasure BOOLEAN NOT NULL DEFAULT FALSE;
+
 INSERT INTO
     boat (name, coord_x, coord_y)
 VALUES ("Black Pearl", 1, 1),
