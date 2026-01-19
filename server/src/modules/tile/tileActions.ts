@@ -6,7 +6,7 @@ const browse: RequestHandler = async (req, res, next) => {
     const tiles = await tileRepository.readAll();
     res.json(tiles);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
