@@ -17,6 +17,26 @@ const browse: RequestHandler = async (req, res, next) => {
 
 const edit: RequestHandler = async (req, res, next) => {
   // your code here
+  try {
+    const id = Number(req.params.id);
+    const { name, coord_x, coord_y } = req.body;
+
+    const affectedRows = await boatRepository.update({
+      id,
+      name,
+      coord_x,
+      coord_y,
+    });
+
+    if (affectedRows === 0) {
+      res.sendStatus(404);
+      return;
+    }
+
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default {

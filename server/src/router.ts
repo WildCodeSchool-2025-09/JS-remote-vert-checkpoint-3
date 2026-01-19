@@ -17,6 +17,8 @@ import gameActions from "./modules/game/gameActions";
 
 router.post("/api/games", gameActions.add);
 
+router.put("/api/boats/:id", boatActions.edit);
+
 /* ************************************************************************* */
 
 export default router;
