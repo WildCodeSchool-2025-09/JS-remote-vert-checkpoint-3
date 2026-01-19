@@ -7,13 +7,35 @@ const browse: RequestHandler = async (req, res, next) => {
 
     res.json(tiles);
   } catch (err) {
-    // Pass any errors to the error-handling middleware
     next(err);
   }
 };
 
 const validate: RequestHandler = async (req, res, next) => {
-  // your code here
+  const { coord_x, coord_y } = req.body;
+
+  if (typeof coord_x !== "number" || typeof coord_y !== "number") {
+    res.sendStatus(422);
+    return;
+  }
+
+  if (coord_x >= 12 || coord_x < 0) {
+    res.sendStatus(422);
+    return;
+  }
+
+  if (coord_y >= 6 || coord_y < 0) {
+    res.sendStatus(422);
+    return;
+  }
+
+  // const result = await tileRepository.readByCoordinates(coord_x, coord_y);
+
+  // if (result.length > 0) {
+  //   res.sendStatus(422);
+  //   return;
+  // }
+  next();
 };
 
 export default {
