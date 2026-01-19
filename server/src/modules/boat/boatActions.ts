@@ -1,5 +1,4 @@
 import type { RequestHandler } from "express";
-
 import boatRepository from "./boatRepository";
 
 const browse: RequestHandler = async (req, res, next) => {
@@ -16,7 +15,28 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 const edit: RequestHandler = async (req, res, next) => {
-  // your code here
+  try {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+      res.status(400).json({ message: "ID invalide" });
+      return;
+    }
+
+    const coord_x = req.body.coord_x;
+    const coord_y = req.body.coord_y;
+
+    const affectedRows = await boatRepository.update({ id, coord_x, coord_y });
+
+    if (affectedRows === 0) {
+      res.status(404).json({ message: "Bateau non trouvé" });
+      return;
+    }
+
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default {
