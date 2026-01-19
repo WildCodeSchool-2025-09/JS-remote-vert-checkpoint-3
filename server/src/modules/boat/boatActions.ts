@@ -16,7 +16,35 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 const edit: RequestHandler = async (req, res, next) => {
-  // your code here
+  try {
+    const boatId = Number(req.params.id);
+    if (Number.isNaN(boatId)) {
+      res.status(400).json({ error: "ID invalide" });
+      return;
+    }
+
+    const position = {
+      id: boatId,
+      coord_x: Number(req.body.coord_x),
+      coord_y: Number(req.body.coord_y),
+    };
+
+    const success = await boatRepository.update(position);
+
+    if (success === 0) {
+      res.status(404).json({ error: "Bateau non trouvé" });
+      return;
+    }
+
+    if (!success) {
+      res.status(500).json({ error: "Erreur mise à jour" });
+      return;
+    }
+
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default {
