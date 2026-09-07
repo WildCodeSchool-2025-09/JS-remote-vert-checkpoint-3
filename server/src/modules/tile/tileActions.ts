@@ -15,7 +15,14 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 const validate: RequestHandler = async (req, res, next) => {
-  // your code here
+  const coord_x = req.body.coord_x;
+  const coord_y = req.body.coord_y;
+
+  if (coord_x >= 0 && coord_x <= 11 && coord_y >= 0 && coord_y <= 5) {
+    return next();
+  }
+
+  res.sendStatus(422);
 };
 
 export default {
