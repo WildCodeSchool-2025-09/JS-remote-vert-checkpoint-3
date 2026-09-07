@@ -2,10 +2,10 @@ import type { RequestHandler } from "express";
 import tileRepository from "./tileRepository";
 
 const browse: RequestHandler = async (req, res, next) => {
-  try { const tiles = await tileRepository.readAll();
+  try {
+    const tiles = await tileRepository.readAll();
     res.json(tiles);
-  }
-  catch (err){
+  } catch (err) {
     next(err);
   }
 };
