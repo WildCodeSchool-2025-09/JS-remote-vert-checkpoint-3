@@ -12,6 +12,17 @@ const browse: RequestHandler = async (req, res, next) => {
 
 const validate: RequestHandler = async (req, res, next) => {
   // your code here
+  const tiles = await tileRepository.readByCoordinates(
+    req.body.coord_x,
+    req.body.coord_y,
+  );
+
+  if (tiles.length === 0) {
+    res.sendStatus(422);
+    return;
+  }
+
+  next();
 };
 
 export default {

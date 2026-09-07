@@ -12,7 +12,7 @@ CREATE TABLE tile (
     coord_x INT NOT NULL,
     coord_y INT NOT NULL,
     PRIMARY KEY (id),
-    has_treasure BOOLEAN NOT NULL DEFAULT 0,
+    has_treasure BOOLEAN NOT NULL DEFAULT 0
 );
 
 INSERT INTO
