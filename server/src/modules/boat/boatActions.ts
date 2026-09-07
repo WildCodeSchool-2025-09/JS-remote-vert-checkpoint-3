@@ -18,7 +18,6 @@ const browse: RequestHandler = async (req, res, next) => {
 const edit: RequestHandler = async (req, res, next) => {
   const boat = {
     id: Number(req.params.id),
-    // name: req.body.name,
     coord_x: req.body.coord_x,
     coord_y: req.body.coord_y,
   };
