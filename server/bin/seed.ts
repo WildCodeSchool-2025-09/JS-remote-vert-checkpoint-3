@@ -75,7 +75,7 @@ const seed = async () => {
     database.end();
 
     console.info(
-      `${process.env.DB_NAME} filled from '${path.normalize(fixturesPath)}' 🌱`
+      `${process.env.DB_NAME} filled from '${path.normalize(fixturesPath)}' 🌱`,
     );
   } catch (err) {
     const { message, stack } = err as Error;
